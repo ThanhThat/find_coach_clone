@@ -1,7 +1,16 @@
 <template>
-  <div>
-    <h1>Coach List</h1>
-  </div>
+  <section>
+    <section>Filter</section>
+    <section>
+      <div class="controls">
+        <button>Refresh</button>
+        <router-link to="/register">Register as Coach</router-link>
+      </div>
+      <ul>
+        List of Coaches
+      </ul>
+    </section>
+  </section>
 </template>
 
 <script>
