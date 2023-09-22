@@ -49,7 +49,7 @@ const router = createRouter({
     {
       path: "/requests",
       name: "requests",
-      component: RequestsReceived,
+      component: RequestReceived,
       meta: {
         title: "Request",
       },
