@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <h1>Coach List</h1>
-  </div>
+  <section>
+    <section>Filter</section>
+    <section>List of coaches</section>
+  </section>
 </template>
 
 <script>

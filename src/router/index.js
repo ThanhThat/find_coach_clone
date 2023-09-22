@@ -2,10 +2,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import { nextTick } from "vue";
 import NotFound from "@/pages/NotFound.vue";
 import CoachesList from "@/pages/coaches/CoachesList.vue";
-import CoachesList from "@/pages/coaches/CoachRegistration.vue";
-import CoachesList from "@/pages/coaches/CoachesDetail.vue";
-import CoachesList from "@/pages/requests/ContactCoach.vue";
-import CoachesList from "@/pages/requests/RequestReceived.vue";
+import CoachRegistration from "@/pages/coaches/CoachRegistration.vue";
+import CoachDetail from "@/pages/coaches/CoachDetail.vue";
+import ContactCoach from "@/pages/requests/ContactCoach.vue";
+import RequestReceived from "@/pages/requests/RequestReceived.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -41,7 +41,7 @@ const router = createRouter({
     {
       path: "/register",
       name: "register",
-      component: CoachRegister,
+      component: CoachRegistration,
       meta: {
         title: "Register",
       },
@@ -49,7 +49,7 @@ const router = createRouter({
     {
       path: "/requests",
       name: "requests",
-      component: RequestsReceived,
+      component: RequestReceived,
       meta: {
         title: "Request",
       },
