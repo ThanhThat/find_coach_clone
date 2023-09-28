@@ -24,7 +24,8 @@ const router = createRouter({
     {
       path: "/coaches/:id",
       component: CoachDetail,
-      meat: {
+      props: true,
+      meta: {
         title: "Coach Detail",
       },
 
