@@ -44,7 +44,7 @@ export default {
     },
 
     areas: {
-      type: String,
+      type: Array,
       required: true,
     },
   },

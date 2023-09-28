@@ -1,6 +1,8 @@
 <template>
+  <section>
+    <coach-filter @changeFilter="setFilter"></coach-filter>
+  </section>
   <base-card>
-    <section>Filter</section>
     <section>
       <div class="controls">
         <base-button>Refresh</base-button>
@@ -28,16 +30,43 @@
 import { mapStores } from "pinia";
 import useCoachesStore from "../../stores/modules/coaches";
 import CoachItem from "../../components/coaches/CoachItem.vue";
+import CoachFilter from "../../components/coaches/CoachFilter.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      activeFilter: { frontend: true, backend: true, career: true },
+    };
   },
   computed: {
     ...mapStores(useCoachesStore),
+
     filteredCoaches() {
-      return this.coachesStore.allCoaches;
+      const coaches = this.coachesStore.allCoaches;
+
+      return coaches.filter((coach) => {
+        // if (this.activeFilter.frontend && coach.areas.includes("frontend")) {
+        //   return true;
+        // }
+
+        // if (this.activeFilter.backend && coach.areas.includes("backend")) {
+        //   return true;
+        // }
+
+        // if (this.activeFilter.career && coach.areas.includes("career")) {
+        //   return true;
+        // }
+
+        // return false;
+
+        for (const key in this.activeFilter) {
+          if (this.activeFilter[key] && coach.areas.includes(key)) return true;
+        }
+
+        return false;
+      });
     },
+
     hasCoaches() {
       return this.coachesStore.hasCoaches;
     },
@@ -45,6 +74,13 @@ export default {
 
   components: {
     CoachItem,
+    CoachFilter,
+  },
+
+  methods: {
+    setFilter(updatedFilter) {
+      this.activeFilter = updatedFilter;
+    },
   },
 };
 </script>
