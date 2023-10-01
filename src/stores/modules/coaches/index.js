@@ -5,6 +5,7 @@ import actions from "./actions";
 const useCoachesStore = defineStore("coaches", {
   state: () => {
     return {
+      userIsCoach: false,
       coaches: [
         {
           id: "c1",

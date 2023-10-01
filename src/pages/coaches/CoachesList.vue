@@ -6,7 +6,9 @@
     <section>
       <div class="controls">
         <base-button>Refresh</base-button>
-        <base-button link to="/register" mode="">Register as Coach</base-button>
+        <base-button link to="/register" mode="" v-if="!isCoach"
+          >Register as Coach</base-button
+        >
       </div>
 
       <ul v-if="hasCoaches">
@@ -69,6 +71,10 @@ export default {
 
     hasCoaches() {
       return this.coachesStore.hasCoaches;
+    },
+
+    isCoach() {
+      return this.coachesStore.isCoach;
     },
   },
 
