@@ -55,6 +55,10 @@ export default {
       return this.selectedCoach.areas;
     },
 
+    description() {
+      return this.selectedCoach.description;
+    },
+
     contactLink() {
       return `/coaches/${this.id}/contact`;
     },
