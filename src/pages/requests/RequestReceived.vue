@@ -31,7 +31,7 @@ export default {
     ...mapStores(useRequestsStore),
 
     receivedRequests() {
-      return this.requestsStore.requests;
+      return this.requestsStore.allRequests;
     },
 
     hasRequest() {

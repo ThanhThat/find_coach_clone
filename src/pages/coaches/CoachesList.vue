@@ -5,13 +5,16 @@
   <base-card>
     <section>
       <div class="controls">
-        <base-button>Refresh</base-button>
+        <base-button @click="loadCoaches()">Refresh</base-button>
         <base-button link to="/register" mode="" v-if="!isCoach"
           >Register as Coach</base-button
         >
       </div>
 
-      <ul v-if="hasCoaches">
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
+      <ul v-else-if="hasCoaches">
         <coach-item
           v-for="coach in filteredCoaches"
           :id="coach.id"
@@ -22,7 +25,6 @@
         >
         </coach-item>
       </ul>
-
       <h3 v-else>No Coach Found.</h3>
     </section>
   </base-card>
@@ -37,6 +39,7 @@ import CoachFilter from "../../components/coaches/CoachFilter.vue";
 export default {
   data() {
     return {
+      isLoading: false,
       activeFilter: { frontend: true, backend: true, career: true },
     };
   },
@@ -70,12 +73,16 @@ export default {
     },
 
     hasCoaches() {
-      return this.coachesStore.hasCoaches;
+      return !this.isLoading && this.coachesStore.hasCoaches;
     },
 
     isCoach() {
       return this.coachesStore.isCoach;
     },
+  },
+
+  created() {
+    this.loadCoaches();
   },
 
   components: {
@@ -86,6 +93,12 @@ export default {
   methods: {
     setFilter(updatedFilter) {
       this.activeFilter = updatedFilter;
+    },
+
+    async loadCoaches() {
+      this.isLoading = true;
+      await this.coachesStore.loadCoaches();
+      this.isLoading = false;
     },
   },
 };

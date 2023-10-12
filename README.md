@@ -30,4 +30,4 @@ npm run build
 
 # find_coach_clone
 
-#TODO: video 44. 2:08:27
+#TODO: video 48 => 1:44:58
