@@ -1,12 +1,21 @@
 <template>
+  <base-dialog
+    :show="!!error"
+    title="An error occurred"
+    fixed=""
+    @close="handleError"
+  >
+    <p>{{ error }}</p>
+  </base-dialog>
+
   <section>
     <coach-filter @changeFilter="setFilter"></coach-filter>
   </section>
   <base-card>
     <section>
       <div class="controls">
-        <base-button @click="loadCoaches()">Refresh</base-button>
-        <base-button link to="/register" mode="" v-if="!isCoach"
+        <base-button @click="loadCoaches(true)">Refresh</base-button>
+        <base-button link to="/register" v-if="!isCoach"
           >Register as Coach</base-button
         >
       </div>
@@ -40,6 +49,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      error: null,
       activeFilter: { frontend: true, backend: true, career: true },
     };
   },
@@ -50,20 +60,6 @@ export default {
       const coaches = this.coachesStore.allCoaches;
 
       return coaches.filter((coach) => {
-        // if (this.activeFilter.frontend && coach.areas.includes("frontend")) {
-        //   return true;
-        // }
-
-        // if (this.activeFilter.backend && coach.areas.includes("backend")) {
-        //   return true;
-        // }
-
-        // if (this.activeFilter.career && coach.areas.includes("career")) {
-        //   return true;
-        // }
-
-        // return false;
-
         for (const key in this.activeFilter) {
           if (this.activeFilter[key] && coach.areas.includes(key)) return true;
         }
@@ -95,10 +91,18 @@ export default {
       this.activeFilter = updatedFilter;
     },
 
-    async loadCoaches() {
+    async loadCoaches(refresh = false) {
       this.isLoading = true;
-      await this.coachesStore.loadCoaches();
+      try {
+        await this.coachesStore.loadCoaches({ forceRefresh: false });
+      } catch (error) {
+        this.error = error.message || "Something went wrong!";
+      }
       this.isLoading = false;
+    },
+
+    handleError() {
+      this.error = null;
     },
   },
 };

@@ -1,5 +1,6 @@
+import { STATUS_CODE } from "../../../constants";
 import useUsersStore from "../users";
-import coachesApi from "../../../apis/models/coaches";
+import coachesApi from "@/apis/models/coachesApi";
 
 export default {
   async registerCoach(payload) {
@@ -14,19 +15,22 @@ export default {
 
     const response = await coachesApi.update(coachData);
 
-    if (!response.status === 200) {
+    if (response.status !== STATUS_CODE.SUCCESS) {
       console.log("Error: ", response.error);
     }
 
     this.coaches.push(coachData);
   },
 
-  async loadCoaches() {
+  async loadCoaches(payload) {
     const response = await coachesApi.getAll();
     const responseData = await response?.data;
 
-    if (!response.status === 200) {
-      console.log("Error: ", response.error);
+    if (!payload.forceRefresh && !this.shouldUpdate) return;
+
+    if (!response.status === STATUS_CODE.SUCCESS) {
+      const error = new Error(responseData.message || "Failed to fetch!");
+      throw error;
     }
 
     const coaches = [];
@@ -43,9 +47,11 @@ export default {
 
       coaches.push(coach);
     }
-    console.log(responseData);
-    console.log(coaches);
 
     this.coaches = coaches;
+  },
+
+  setFetchTimestamp() {
+    this.lastFetch = new Date().getTime();
   },
 };

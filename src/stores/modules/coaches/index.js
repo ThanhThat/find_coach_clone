@@ -7,6 +7,7 @@ const useCoachesStore = defineStore("coaches", {
     return {
       userIsCoach: false,
       coaches: [],
+      lastFetch: null,
     };
   },
   getters,

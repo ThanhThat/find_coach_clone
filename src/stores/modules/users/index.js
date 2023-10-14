@@ -5,7 +5,7 @@ import actions from "./actions";
 const useUsersStore = defineStore("users", {
   state: () => {
     return {
-      userId: "c3",
+      userId: localStorage.getItem("userId") || null,
     };
   },
   getters,

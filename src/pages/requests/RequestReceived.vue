@@ -1,11 +1,18 @@
 <template>
+  <base-dialog :show="!!error" title="An error occurred" @close="handleError">
+    <p>{{ error }}</p>
+  </base-dialog>
+
   <section>
     <base-card>
       <header>
         <h2>Request Received</h2>
       </header>
 
-      <ul v-if="hasRequest">
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
+      <ul v-else-if="hasRequest">
         <request-item
           v-for="request in receivedRequests"
           :key="request.id"
@@ -24,9 +31,21 @@ import { mapStores } from "pinia";
 import RequestItem from "../../components/requests/RequestItem.vue";
 
 export default {
+  data() {
+    return {
+      isLoading: false,
+      error: null,
+    };
+  },
+
   components: {
     RequestItem,
   },
+
+  created() {
+    this.loadRequest();
+  },
+
   computed: {
     ...mapStores(useRequestsStore),
 
@@ -35,7 +54,25 @@ export default {
     },
 
     hasRequest() {
-      return this.requestsStore.hasRequest;
+      return !this.isLoading && this.requestsStore.hasRequest;
+    },
+  },
+
+  methods: {
+    async loadRequest() {
+      this.isLoading = true;
+
+      try {
+        await this.requestsStore.fetchRequests();
+      } catch (error) {
+        this.error = error.message || "Something failed!";
+      }
+
+      this.isLoading = false;
+    },
+
+    handleError() {
+      this.error = null;
     },
   },
 };

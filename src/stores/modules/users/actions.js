@@ -7,6 +7,8 @@ export default {
 
     this.userId = newUserId;
 
+    localStorage.setItem("userId", this.userId);
+
     return this.userId;
   },
 };
