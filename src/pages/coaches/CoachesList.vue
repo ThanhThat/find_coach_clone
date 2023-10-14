@@ -1,42 +1,46 @@
 <template>
-  <base-dialog
-    :show="!!error"
-    title="An error occurred"
-    fixed=""
-    @close="handleError"
-  >
-    <p>{{ error }}</p>
-  </base-dialog>
-
   <section>
-    <coach-filter @changeFilter="setFilter"></coach-filter>
-  </section>
-  <base-card>
-    <section>
-      <div class="controls">
-        <base-button @click="loadCoaches(true)">Refresh</base-button>
-        <base-button link to="/register" v-if="!isCoach"
-          >Register as Coach</base-button
-        >
-      </div>
+    <base-dialog
+      :show="!!error"
+      title="An error occurred"
+      fixed=""
+      @close="handleError"
+    >
+      <p>{{ error }}</p>
+    </base-dialog>
 
-      <div v-if="isLoading">
-        <base-spinner></base-spinner>
-      </div>
-      <ul v-else-if="hasCoaches">
-        <coach-item
-          v-for="coach in filteredCoaches"
-          :id="coach.id"
-          :first-name="coach.firstName"
-          :last-name="coach.lastName"
-          :areas="coach.areas"
-          :rate="coach.hourlyRate"
-        >
-        </coach-item>
-      </ul>
-      <h3 v-else>No Coach Found.</h3>
+    <section>
+      <coach-filter @changeFilter="setFilter"></coach-filter>
     </section>
-  </base-card>
+    <base-card>
+      <section>
+        <div class="controls">
+          <base-button @click="loadCoaches(true)">Refresh</base-button>
+          <base-button link to="/register" v-if="!isCoach"
+            >Register as Coach</base-button
+          >
+        </div>
+
+        <transition name="coaches">
+          <div v-if="isLoading">
+            <base-spinner></base-spinner>
+          </div>
+          <ul v-else-if="hasCoaches">
+            <coach-item
+              v-for="coach in filteredCoaches"
+              :id="coach.id"
+              :first-name="coach.firstName"
+              :last-name="coach.lastName"
+              :areas="coach.areas"
+              :rate="coach.hourlyRate"
+            >
+            </coach-item>
+          </ul>
+          <h3 v-else>No Coach Found.</h3>
+        </transition>
+      </section>
+    </base-card>
+  </section>
 </template>
 
 <script>
@@ -143,5 +147,19 @@ div {
 .actions {
   display: flex;
   justify-content: flex-end;
+}
+
+.coaches-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+// .coaches-leave-active {
+//   transition: all 0.3s ease-in;
+// }
+
+.coaches-enter-from,
+.coaches-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
 }
 </style>

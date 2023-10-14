@@ -1,7 +1,13 @@
 <template>
-  <div class="container">
-    <h1>404 | Not Found</h1>
-  </div>
+  <section>
+    <base-card>
+      <h2>Page Not Found!</h2>
+      <p>
+        This page could not be found - may be check out all our
+        <router-link to="/">Coaches</router-link>
+      </p>
+    </base-card>
+  </section>
 </template>
 
 <script>
